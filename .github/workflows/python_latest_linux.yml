@@ -1,0 +1,47 @@
+name: Build and Test Latest Python on Linux
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - '**'
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: python
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          # Install a specific version of uv.
+          version: "0.5.14"
+          enable-cache: true
+          cache-dependency-glob: "requirements**.txt"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+
+      - name: Install the project
+        run: |
+          uv venv
+          uv sync --all-extras --dev
+
+      - name: Ruff Lint
+        run: uv run ruff check --output-format=github .
+
+      - name: Run tests
+        run: |
+          uv pip install pytest-md-report
+          uv run pytest tests --md-report --md-report-flavor gfm --md-report-output md_report.md
+          cat md_report.md >> $GITHUB_STEP_SUMMARY

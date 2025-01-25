@@ -1,0 +1,97 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name =  "python_template"
+version = "0.1.0"
+description = "Python template project"
+readme = "README.md"
+requires-python = ">=3.12"
+# use requirements.in to manage dependencies, don't directly update here
+dependencies = [
+    "python-dotenv==1.0.1",
+]
+
+[project.scripts]
+# add scripts here that are installed with the environment
+# uses 'uv pip compile requirements.in > requirements.txt' to compile all deps
+compile-reqs = "python_template.utils.scripts.generate_requirements_txt:main"
+
+[tool.setuptools.packages.find]
+where = [".", "python_template"]    # there sometimes seems to be a discovery problem, possibly only bc `python.*`
+exclude = ["tests", "docs"]
+
+[tool.uv.pip]
+universal = true    # UV to generate universal lockfiles
+
+[tool.uv.sources]
+python-template = { workspace = true }
+
+[tool.ruff]
+extend-exclude = []
+show-fixes = true
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
+ignore = [
+    "E501",  # line too long
+    "B008",  # do not perform calls in argument defaults
+]
+
+[tool.pytest.ini_options]
+addopts = "--html=logs/report.html --self-contained-html"
+testpaths = ["tests"]
+log_cli = "True"
+log_cli_level = "INFO"
+log_cli_format = "[%(asctime)s] [%(levelname)s] %(message)s"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+log_file = "./logs/pytest.log"
+
+[dependency-groups]
+# use requirements-dev.in to manage dev dependencies, don't directly update here
+dev = [
+    "black==24.10.0",
+    "cfgv==3.4.0",
+    "click==8.1.8",
+    "colorama==0.4.6 ; sys_platform == 'win32'",
+    "coverage==7.6.10",
+    "distlib==0.3.9",
+    "filelock==3.16.1",
+    "identify==2.6.5",
+    "iniconfig==2.0.0",
+    "jinja2==3.1.5",
+    "markupsafe==3.0.2",
+    "mypy-extensions==1.0.0",
+    "nodeenv==1.9.1",
+    "packaging==24.2",
+    "pathspec==0.12.1",
+    "platformdirs==4.3.6",
+    "pluggy==1.5.0",
+    "pre-commit==4.0.1",
+    "pytest==8.3.4",
+    "pytest-cov==6.0.0",
+    "pytest-html==4.1.1",
+    "pytest-metadata==3.1.1",
+    "python-template",
+    "pyyaml==6.0.2",
+    "ruff==0.8.6",
+    "setuptools==75.6.0",
+    "uv==0.5.14",
+    "virtualenv==20.28.1",
+    "wheel==0.45.1",
+]

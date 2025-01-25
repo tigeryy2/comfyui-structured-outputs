@@ -1,0 +1,13 @@
+# include base reqs
+-r requirements.in
+
+setuptools
+wheel
+pytest
+pytest-cov
+pytest-html
+uv
+ruff
+black
+pre-commit
+-e .
