@@ -7,8 +7,8 @@ Inherit from `Loggable` to get a `log()` classmethod that returns a logger for t
 from __future__ import annotations
 
 import logging
-from logging import handlers
 import sys
+from logging import handlers
 from pathlib import Path
 
 

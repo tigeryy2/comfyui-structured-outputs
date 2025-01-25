@@ -1,9 +1,9 @@
 import pytest
 
-from logs import LOGS_DIR
 from comfyui_structured_outputs import DOTENV_FILE
 from comfyui_structured_outputs.utils.loggable import Loggable
 from comfyui_structured_outputs.utils.utils import dotenv_file_exists
+from logs import LOGS_DIR
 
 
 @pytest.fixture(scope="session", autouse=True)
