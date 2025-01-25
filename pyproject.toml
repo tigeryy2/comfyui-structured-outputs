@@ -4,6 +4,7 @@
 [project]
 name =  "comfyui-structured-outputs"
 version = "0.1.0"
+requires-python = ">=3.9"
 description = "ComfyUI nodes for LLM Structured Outputs with integration for prompting"
 readme = "README.md"
 license = {text = "MIT License"}
