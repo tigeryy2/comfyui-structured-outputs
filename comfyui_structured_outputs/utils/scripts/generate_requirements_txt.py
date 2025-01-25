@@ -6,8 +6,8 @@ import subprocess
 from pathlib import Path
 
 from logs import LOGS_DIR
-from python_template.utils.loggable import Loggable
-from python_template.utils.utils import change_dir
+from comfyui_structured_outputs.utils.loggable import Loggable
+from comfyui_structured_outputs.utils.utils import change_dir
 
 PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent.resolve()
 REQUIREMENTS_IN_FILES: list[str] = ["requirements.in", "requirements-dev.in"]

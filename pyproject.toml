@@ -1,17 +1,29 @@
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+# pyproject.toml
 
+## ComfyUI Config and Info
 [project]
-name =  "python_template"
+name =  "comfyui-structured-outputs"
 version = "0.1.0"
-description = "Python template project"
+description = "ComfyUI nodes for LLM Structured Outputs with integration for prompting"
 readme = "README.md"
-requires-python = ">=3.12"
-# use requirements.in to manage dependencies, don't directly update here
+license = {text = "MIT License"}
+# use requirements.in to manage dependencies, don't directly update here, see README.md
 dependencies = [
     "python-dotenv==1.0.1",
 ]
+
+[project.urls]
+Repository = "https://github.com/tigeryy2/comfyui-structured-outputs"
+
+[tool.comfy]
+PublisherId = "" # TODO (fill in Publisher ID from Comfy Registry Website).
+DisplayName = "ComfyUI Structured Outputs" # Display name for the Custom Node. Can be changed later.
+Icon = "https://example.com/icon.png" # SVG, PNG, JPG or GIF (MAX. 800x400px)
+
+## Other Config
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project.scripts]
 # add scripts here that are installed with the environment
@@ -27,6 +39,7 @@ universal = true    # UV to generate universal lockfiles
 
 [tool.uv.sources]
 python-template = { workspace = true }
+comfyui-structured-outputs = { workspace = true }
 
 [tool.ruff]
 extend-exclude = []
@@ -71,8 +84,8 @@ dev = [
     "colorama==0.4.6 ; sys_platform == 'win32'",
     "coverage==7.6.10",
     "distlib==0.3.9",
-    "filelock==3.16.1",
-    "identify==2.6.5",
+    "filelock==3.17.0",
+    "identify==2.6.6",
     "iniconfig==2.0.0",
     "jinja2==3.1.5",
     "markupsafe==3.0.2",
@@ -82,16 +95,17 @@ dev = [
     "pathspec==0.12.1",
     "platformdirs==4.3.6",
     "pluggy==1.5.0",
-    "pre-commit==4.0.1",
+    "pre-commit==4.1.0",
     "pytest==8.3.4",
     "pytest-cov==6.0.0",
     "pytest-html==4.1.1",
     "pytest-metadata==3.1.1",
-    "python-template",
     "pyyaml==6.0.2",
-    "ruff==0.8.6",
-    "setuptools==75.6.0",
-    "uv==0.5.14",
-    "virtualenv==20.28.1",
+    "ruff==0.9.3",
+    "setuptools==75.8.0",
+    "uv==0.5.24",
+    "virtualenv==20.29.1",
     "wheel==0.45.1",
+    "python-dotenv==1.0.1",
+    "comfyui-structured-outputs",
 ]

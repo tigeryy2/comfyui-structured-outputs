@@ -1,12 +1,12 @@
 import pytest
 
 from logs import LOGS_DIR
-from python_template import DOTENV_FILE
-from python_template.utils.loggable import Loggable
-from python_template.utils.utils import dotenv_file_exists
+from comfyui_structured_outputs import DOTENV_FILE
+from comfyui_structured_outputs.utils.loggable import Loggable
+from comfyui_structured_outputs.utils.utils import dotenv_file_exists
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 def logger():
     Loggable.setup_logs(log_path=LOGS_DIR / "tests.log")
 

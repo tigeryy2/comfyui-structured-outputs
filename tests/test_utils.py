@@ -3,7 +3,11 @@ from pathlib import Path
 
 import pytest
 
-from python_template.utils.utils import change_dir, dotenv_file_exists, get_env
+from comfyui_structured_outputs.utils.utils import (
+    change_dir,
+    dotenv_file_exists,
+    get_env,
+)
 
 
 def test_change_dir_succeeds():

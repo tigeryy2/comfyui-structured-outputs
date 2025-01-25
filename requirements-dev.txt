@@ -16,9 +16,9 @@ coverage==7.6.10
     # via pytest-cov
 distlib==0.3.9
     # via virtualenv
-filelock==3.16.1
+filelock==3.17.0
     # via virtualenv
-identify==2.6.5
+identify==2.6.6
     # via pre-commit
 iniconfig==2.0.0
     # via pytest
@@ -42,7 +42,7 @@ platformdirs==4.3.6
     #   virtualenv
 pluggy==1.5.0
     # via pytest
-pre-commit==4.0.1
+pre-commit==4.1.0
     # via -r requirements-dev.in
 pytest==8.3.4
     # via
@@ -57,16 +57,18 @@ pytest-html==4.1.1
 pytest-metadata==3.1.1
     # via pytest-html
 python-dotenv==1.0.1
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   comfyui-structured-outputs
 pyyaml==6.0.2
     # via pre-commit
-ruff==0.8.6
+ruff==0.9.3
     # via -r requirements-dev.in
-setuptools==75.7.0
+setuptools==75.8.0
     # via -r requirements-dev.in
-uv==0.5.14
+uv==0.5.24
     # via -r requirements-dev.in
-virtualenv==20.28.1
+virtualenv==20.29.1
     # via pre-commit
 wheel==0.45.1
     # via -r requirements-dev.in

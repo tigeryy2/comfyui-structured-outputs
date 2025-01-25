@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Pytest All" type="tests" factoryName="Autodetect">
-    <module name="python_template" />
+    <module name="comfyui_structured_outputs" />
     <option name="ENV_FILES" value="" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />

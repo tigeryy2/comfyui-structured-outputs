@@ -7,6 +7,7 @@ Inherit from `Loggable` to get a `log()` classmethod that returns a logger for t
 from __future__ import annotations
 
 import logging
+from logging import handlers
 import sys
 from pathlib import Path
 
@@ -45,7 +46,7 @@ class Loggable:
 
         if log_path is not None:
             # setup logging to file
-            file_handler = logging.handlers.RotatingFileHandler(
+            file_handler = handlers.RotatingFileHandler(
                 log_path, maxBytes=1000000, backupCount=5
             )
             file_handler.setLevel(file_log_level)

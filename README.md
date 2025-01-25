@@ -1,5 +1,5 @@
-# python-template
-Template repo for Python projects
+# ComfyUI Structured Output
+ComfyUI nodes for LLM Structured Outputs with integration for prompting
 
 ## Setup
 

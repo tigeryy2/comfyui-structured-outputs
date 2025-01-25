@@ -7,5 +7,5 @@
     <option name="pathToExecutable" value="/opt/homebrew/bin/black" />
     <option name="sdkName" value="python_template (.venv)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="python_template (.venv)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (comfyui-structured-outputs)" project-jdk-type="Python SDK" />
 </project>
