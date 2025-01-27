@@ -1,11 +1,14 @@
+from __future__ import annotations
+
 from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
 
 class BaseAttributeModel(BaseModel):
-    error: str | None = Field(default=None, description="Error message if any")
+    key: str
     value: Any
+    error: str | None = Field(default=None, description="Error message if any")
 
 
 ATTRIBUTE_TYPES: dict[str, Any] = {

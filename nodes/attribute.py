@@ -1,31 +1,35 @@
 from __future__ import annotations
 
+from typing import Literal
+
 from pydantic import Field, create_model
 
-from comfyui_structured_outputs.attribute_utils import (
+from ..comfyui_structured_outputs.attribute_utils import (
     ATTRIBUTE_TYPES,
     BaseAttributeModel,
     string_to_type,
 )
+from ..comfyui_structured_outputs.utils.loggable import Loggable
 
 
-class AttributeNode:
+class AttributeNode(Loggable):
+    NAME: str = "AttributeNode"
     RETURN_TYPES = ("ATTRIBUTE",)
     RETURN_NAMES = ("attribute",)
-    CATEGORY = "structured output"
+    CATEGORY = "structured_output"
     FUNCTION = "init_attribute"
 
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
-                {"name": ("STRING", {})},
-                {"attribute_type": ["str", "int", "float", "bool"]},
+                "name": ("STRING", {}),
+                "attribute_type": (["str", "int", "float", "bool"],),
             },
             "optional": {
-                {"description": ("STRING", {"multiline": True})},
-                {"example": ("STRING", {"multiline": True})},
-                {"options": ("STRING", {"multiline": True})},
+                "description": ("STRING", {"multiline": True}),
+                "example": ("STRING", {"multiline": True}),
+                "options": ("STRING", {"multiline": True}),
             },
         }
 
@@ -38,12 +42,17 @@ class AttributeNode:
         example: str | None = None,
     ):
         if not name:
-            raise ValueError("Attribute name cannot be empty")
+            AttributeNode.log().error(msg := "Attribute name cannot be empty")
+            raise ValueError(msg)
 
         if attribute_type not in ATTRIBUTE_TYPES:
-            raise ValueError(
-                f"Invalid attribute type: '{attribute_type}' is not in '{ATTRIBUTE_TYPES.keys()}'"
+            AttributeNode.log().error(
+                msg
+                := f"Invalid attribute type: '{attribute_type}' is not in '{ATTRIBUTE_TYPES.keys()}'"
             )
+            raise ValueError(msg)
+
+        return True
 
     def init_attribute(
         self,
@@ -55,10 +64,12 @@ class AttributeNode:
     ):
         attribute_model = create_model(
             f"{name}Model",
+            # force the "key" to be the name of the attribute
+            key=(Literal[name], Field(default=name, description="Attribute name")),
             value=(
                 string_to_type(attribute_type, options=options),
                 Field(description=description, examples=[example]),
             ),
             __base__=BaseAttributeModel,
         )
-        return attribute_model
+        return [attribute_model]
