@@ -10,8 +10,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from ...comfyui_structured_outputs import DOTENV_FILE
-from ...comfyui_structured_outputs.utils.loggable import Loggable
+from .. import DOTENV_FILE
+from ..utils.loggable import Loggable
 
 
 @contextmanager
