@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, create_model
 
 
 class BaseAttributeModel(BaseModel):
@@ -45,3 +45,17 @@ def string_to_type(value: str, options: str | None = None) -> Any:
     #
     # Otherwise, use __getitem__ with a tuple:
     return Literal.__getitem__(tuple(option_values))
+
+
+class BaseAttributesModel(BaseModel):
+    attributes: tuple[BaseAttributeModel, ...]
+
+
+def attributes_to_model(
+    attributes: list[type[BaseAttributeModel]],
+) -> type[BaseAttributesModel]:
+    # Bundles a list of attributes into a single model
+    return create_model(
+        "ReturnModel",
+        **{attr.model_fields["key"].default: (attr, Field()) for attr in attributes},
+    )

@@ -1,8 +1,15 @@
 # test_string_to_type.py
+from typing import Literal
+
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from comfyui_structured_outputs.attribute_utils import string_to_type
+from comfyui_structured_outputs.attribute_utils import (
+    BaseAttributeModel,
+    BaseAttributesModel,
+    attributes_to_model,
+    string_to_type,
+)
 
 
 @pytest.mark.parametrize(
@@ -76,3 +83,146 @@ def test_pydantic_integration():
     # Invalid case
     with pytest.raises(ValidationError, match="literal_error"):
         MyModel(my_field=4)
+
+
+# ---------------------
+# Example attribute definitions
+# ---------------------
+class MyStrAttr(BaseAttributeModel):
+    """
+    Example attribute with a 'key' and a string value.
+    Pydantic v2 example fields usage:
+      - If you use model_config or model_fields in your real code, adapt accordingly.
+    """
+
+    key: Literal["my_str_attr"] = "my_str_attr"
+    value: str
+
+
+class MyIntAttr(BaseAttributeModel):
+    key: Literal["my_int_attr"] = "my_int_attr"
+    value: int
+
+
+class MyBoolAttr(BaseAttributeModel):
+    key: Literal["my_bool_attr"] = "my_bool_attr"
+    value: bool
+
+
+# ---------------------
+# Tests
+# ---------------------
+
+
+def test_base_attributes_model_init():
+    """
+    Test that BaseAttributesModel can initialize with a tuple of BaseAttributeModel.
+    """
+    model = BaseAttributesModel(
+        attributes=(
+            MyStrAttr(value="hello"),
+            MyIntAttr(value=123),
+        )
+    )
+    assert len(model.attributes) == 2
+    assert model.attributes[0].value == "hello"
+    assert model.attributes[1].value == 123
+
+
+def test_attributes_to_model_empty():
+    """
+    Test that attributes_to_model with an empty list produces a model with no fields.
+    """
+    ReturnModel = attributes_to_model([])
+    assert issubclass(ReturnModel, BaseModel)
+    assert len(ReturnModel.model_fields) == 0
+
+    # Try instantiating it
+    instance = ReturnModel()
+    # Should have no attributes
+    assert instance.model_dump() == {}
+
+
+def test_attributes_to_model_single_attribute():
+    """
+    Test that attributes_to_model with a single attribute
+    creates a model with one corresponding field.
+    """
+    ReturnModel = attributes_to_model([MyStrAttr])
+    # The field name should be the default of the 'key' field for MyStrAttr
+    assert "my_str_attr" in ReturnModel.model_fields
+    assert ReturnModel.model_fields["my_str_attr"].annotation == MyStrAttr
+
+    # Instantiate
+    instance = ReturnModel(my_str_attr=MyStrAttr(value="hello"))
+    assert instance.my_str_attr.value == "hello"
+
+    # If we pass a type mismatch or no value for 'my_str_attr', we should see a ValidationError
+    with pytest.raises(ValidationError):
+        ReturnModel(my_str_attr=MyStrAttr(value=123))  # 123 is not a string
+
+    # With no attribute, also should fail validation because it's a required field
+    # (unless you made it optional; depends on your design)
+    with pytest.raises(ValidationError):
+        ReturnModel()
+
+
+def test_attributes_to_model_multiple_attributes():
+    """
+    Test that multiple attributes become multiple fields in the returned model.
+    """
+    ReturnModel = attributes_to_model([MyStrAttr, MyIntAttr, MyBoolAttr])
+    expected_fields = {"my_str_attr", "my_int_attr", "my_bool_attr"}
+    assert expected_fields == set(ReturnModel.model_fields.keys())
+
+    # Valid instantiation
+    instance = ReturnModel(
+        my_str_attr=MyStrAttr(value="abc"),
+        my_int_attr=MyIntAttr(value=42),
+        my_bool_attr=MyBoolAttr(value=True),
+    )
+    assert instance.my_str_attr.value == "abc"
+    assert instance.my_int_attr.value == 42
+    assert instance.my_bool_attr.value is True
+
+    # Missing one field => ValidationError (unless you make fields optional)
+    with pytest.raises(ValidationError):
+        ReturnModel(
+            my_str_attr=MyStrAttr(value="xyz"),
+            my_int_attr=MyIntAttr(value=24),
+            # no my_bool_attr
+        )
+
+
+def test_attributes_to_model_validation_errors():
+    """
+    More nuanced test for errors in the dynamic model fields.
+    """
+    ReturnModel = attributes_to_model([MyIntAttr])
+
+    # Attempt to assign a string to 'my_int_attr.value' which is an int
+    with pytest.raises(ValidationError) as exc_info:
+        ReturnModel(my_int_attr=MyIntAttr(value="not-an-int"))
+    # We can look at the error output if needed
+    error_msg = str(exc_info.value)
+    assert (
+        "type_error.integer" in error_msg
+        or "Input should be a valid integer" in error_msg
+    )
+
+
+@pytest.mark.parametrize(
+    "attrs, expected_field_names",
+    [
+        ([], []),
+        ([MyIntAttr], ["my_int_attr"]),
+        ([MyStrAttr, MyBoolAttr], ["my_str_attr", "my_bool_attr"]),
+    ],
+)
+def test_attributes_to_model_param(attrs, expected_field_names):
+    """
+    Parametrized test to ensure the dynamic model has the right field names.
+    """
+    ReturnModel = attributes_to_model(attrs)
+    actual_fields = list(ReturnModel.model_fields.keys())
+    assert actual_fields == expected_field_names
