@@ -11,6 +11,7 @@ jobs:
   publish-node:
     name: Publish Custom Node to registry
     runs-on: ubuntu-latest
+    environment: comfyui_publish
     steps:
       - name: Check out code
         uses: actions/checkout@v4
