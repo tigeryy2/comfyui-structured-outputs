@@ -5,7 +5,7 @@
 name =  "comfyui-structured-outputs"
 version = "0.1.0"
 requires-python = ">=3.9"
-description = "ComfyUI nodes for LLM Structured Outputs with integration for prompting"
+description = "ComfyUI nodes for (V)LLM Structured Outputs"
 readme = "README.md"
 license = {text = "MIT License"}
 # use requirements.in to manage dependencies, don't directly update here, see README.md
@@ -56,7 +56,7 @@ dependencies = [
 Repository = "https://github.com/tigeryy2/comfyui-structured-outputs"
 
 [tool.comfy]
-PublisherId = "" # TODO (fill in Publisher ID from Comfy Registry Website).
+PublisherId = "tigeryy2"
 DisplayName = "ComfyUI Structured Outputs" # Display name for the Custom Node. Can be changed later.
 Icon = "https://example.com/icon.png" # SVG, PNG, JPG or GIF (MAX. 800x400px)
 
