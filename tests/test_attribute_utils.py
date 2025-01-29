@@ -27,9 +27,7 @@ def test_no_options_returns_basic_type(attr_type, expected_type):
     when no options_str is provided.
     """
     returned_type = string_to_type(attr_type)
-    assert (
-        returned_type is expected_type
-    ), f"Expected '{attr_type}' to map to {expected_type}, but got {returned_type}."
+    assert returned_type is expected_type
 
 
 @pytest.mark.parametrize("invalid_type", ["unknown_type", "object", "somethingelse"])

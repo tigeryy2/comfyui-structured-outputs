@@ -15,9 +15,12 @@ from ..comfyui_structured_outputs.utils.loggable import Loggable
 class AttributeNode(Loggable):
     NAME: str = "AttributeNode"
     RETURN_TYPES = ("ATTRIBUTE",)
-    RETURN_NAMES = ("attribute",)
+    RETURN_NAMES = ("attributes",)
     CATEGORY = "structured_output"
     FUNCTION = "init_attribute"
+
+    INPUT_IS_LIST: bool = True
+    OUTPUT_IS_LIST: bool = (True,)
 
     @classmethod
     def INPUT_TYPES(cls):
@@ -27,6 +30,7 @@ class AttributeNode(Loggable):
                 "attribute_type": (["str", "int", "float", "bool"],),
             },
             "optional": {
+                "attributes_in": ("ATTRIBUTE", {}),
                 "description": ("STRING", {"multiline": True}),
                 "example": ("STRING", {"multiline": True}),
                 "options": ("STRING", {"multiline": True}),
@@ -38,9 +42,13 @@ class AttributeNode(Loggable):
         cls,
         name: str,
         attribute_type: str,
+        attributes_in: [BaseAttributeModel] = None,
         description: str | None = None,
         example: str | None = None,
     ):
+        name: str = name[0]
+        attribute_type: str = attribute_type[0]
+
         if not name:
             AttributeNode.log().error(msg := "Attribute name cannot be empty")
             raise ValueError(msg)
@@ -56,12 +64,24 @@ class AttributeNode(Loggable):
 
     def init_attribute(
         self,
-        name: str,
-        attribute_type: str,
-        description: str | None = None,
-        example: str | None = None,
-        options: str | None = None,
+        name: [str],
+        attribute_type: [str],
+        attributes_in: [BaseAttributeModel] = None,
+        description: [str] = None,
+        example: [str] = None,
+        options: [str] = None,
     ):
+        # since all inputs are lists and padded to the same length, we can just take the first element
+        name: str = name[0]
+        attribute_type: str = attribute_type[0]
+        description: str = description[0]
+        example: str = example[0]
+        options: str = options[0]
+
+        # except for attributes, which we want to keep as a list
+        if not attributes_in:
+            attributes_in = []
+
         attribute_model = create_model(
             f"{name}Model",
             # force the "key" to be the name of the attribute
@@ -72,4 +92,7 @@ class AttributeNode(Loggable):
             ),
             __base__=BaseAttributeModel,
         )
-        return [attribute_model]
+
+        # concat the attributes_in and the new attribute_model
+        # since outputs are list, we need to return a tuple of list
+        return (attributes_in + [attribute_model],)

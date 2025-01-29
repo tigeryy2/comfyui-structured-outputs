@@ -9,11 +9,13 @@ class AttributeToTextNode:
     FUNCTION = "get_text"
     OUTPUT_NODE: bool = True
 
+    INPUT_IS_LIST: bool = True
+
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "attribute": ("ATTRIBUTE", {}),
+                "attributes": ("ATTRIBUTE", {}),
                 "format_text": (
                     "STRING",
                     {
@@ -29,17 +31,21 @@ class AttributeToTextNode:
 
     def get_text(
         self,
-        attribute: BaseAttributeModel,
-        format_text: str,
+        attributes: [BaseAttributeModel],
+        format_text: [str],
         extra_pnginfo,
         unique_id,
     ):
+        # handle padded input lists
+        format_text: str = format_text[0]
         if format_text is None:
             format_text = ""
 
         # convert attribute to key value pairs
-        mapping: dict[str, str] = {attribute.key: str(attribute.value)}
+        mapping: dict[str, str] = {
+            key: value["value"] for key, value in attributes[0].model_dump().items()
+        }
 
+        # replace {key} with value
         formatted_text: str = format_text.format(**mapping)
-
-        return [formatted_text]
+        return (formatted_text,)

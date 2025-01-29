@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Black">
+    <option name="cmdArguments" value="format --preview" />
     <option name="enabledOnReformat" value="true" />
     <option name="enabledOnSave" value="true" />
     <option name="executionMode" value="BINARY" />
-    <option name="pathToExecutable" value="/opt/homebrew/bin/black" />
+    <option name="pathToExecutable" value="/opt/homebrew/Cellar/ruff/0.9.3/bin/ruff" />
     <option name="sdkName" value="python_template (.venv)" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (comfyui-structured-outputs)" project-jdk-type="Python SDK" />

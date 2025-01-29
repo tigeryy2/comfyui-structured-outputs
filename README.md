@@ -1,6 +1,12 @@
 # ComfyUI LLM Structured Output Nodes
 ComfyUI nodes for LLM Structured Outputs 
 
+## Usage
+
+
+## Nodes
+
+
 ## API Keys
 
 To use the ComfyUI LLM Structured Output Nodes, you will need to have an API key for the OpenAI API. 
