@@ -65,7 +65,7 @@ multidict==6.1.0
     # via
     #   aiohttp
     #   yarl
-openai==1.60.1
+openai==1.60.2
     # via instructor
 propcache==0.2.1
     # via

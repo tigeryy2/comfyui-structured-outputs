@@ -1,6 +1,3 @@
-# include base reqs
--r requirements.in
-
 setuptools
 wheel
 pytest
@@ -10,4 +7,4 @@ uv
 ruff
 black
 pre-commit
--e .
+comfy
