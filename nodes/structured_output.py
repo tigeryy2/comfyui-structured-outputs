@@ -16,7 +16,7 @@ from ..comfyui_structured_outputs.utils.utils import get_env
 class StructuredOutputNode(Loggable):
     NAME: str = "StructuredOutputNode"
     RETURN_TYPES = ("ATTRIBUTE",)
-    RETURN_NAMES = ("attribute",)
+    RETURN_NAMES = ("attributes",)
     CATEGORY = "structured_output"
     FUNCTION = "get_structured_output"
 
