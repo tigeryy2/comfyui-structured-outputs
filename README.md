@@ -13,6 +13,12 @@ A vector art drawing of {foreground}, set against a minimalistic light {backgrou
 “{text}” in the top right corner is drawn in wide {color} brushstrokes.
 ```
 
+## Install
+
+1. Install comfyui
+2. Install this custom nodes `comfyui-structured-outputs` via custom nodes manager
+3. Copy `.env.example` to `.env` and add your OpenAI API key
+
 ## Custom Nodes
 
 ### Attribute Node
@@ -48,12 +54,6 @@ The **Attribute to Text Node** converts the structured output into formatted tex
 
 This node outputs a formatted text prompt based on the structured variables.
 
-## Install
-
-1. Install comfyui
-2. Install this custom nodes `comfyui-structured-outputs` via custom nodes manager
-3. Copy `.env.example` to `.env` and add your OpenAI API key
-
 ## Examples
 
 ### Describing Image Parts Independently
@@ -61,15 +61,24 @@ This node outputs a formatted text prompt based on the structured variables.
 See [describe_image_parts.json](example_workflows/describe_image_parts.json)
 
 This example:
-- 
+- Defines attributes for the text, background, style (photography, painting, etc.), and if the image is cool
+- Uses the Structured Output Node to generate descriptions for each attribute
+- Combines the attributes in a formatted text string
+  - in real use cases you would likely use the attributes to create a prompt for an image generation model
 
-## API Keys
+## Contributing
+
+All contributions, bug reports, issues, requests welcome!
+
+## FAQ 
+
+### What's this about API Keys?
 
 To use the ComfyUI LLM Structured Output Nodes, you will need to have an API key for the OpenAI API. 
 
 You can get one by signing up at [OpenAI](https://platform.openai.com/signup).
 
-Copy your key and paste it into the `.env` file in the project root. 
+Copy your key and paste it into a `.env` file in the project root. 
 
 e.g. See [.env.example](.env.example)
 ```
