@@ -1,2 +1,6 @@
 python-dotenv
 instructor
+Pillow
+torch
+torchvision
+numpy
