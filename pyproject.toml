@@ -71,7 +71,7 @@ dependencies = [
     "triton==3.1.0 ; python_full_version < '3.13' and platform_machine == 'x86_64' and sys_platform == 'linux'",
     "typer==0.15.1",
     "typing-extensions==4.12.2",
-    "urllib3==2.3.0",
+    "urllib3==2.6.3",
     "yarl==1.18.3",
 ]
 
@@ -193,7 +193,7 @@ dev = [
     "tomlkit==0.13.2",
     "typer==0.15.1",
     "typing-extensions==4.12.2",
-    "urllib3==2.3.0",
+    "urllib3==2.6.3",
     "uv==0.5.25",
     "virtualenv==20.29.1",
     "wcwidth==0.2.13",
