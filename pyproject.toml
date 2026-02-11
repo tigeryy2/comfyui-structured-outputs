@@ -52,7 +52,7 @@ dependencies = [
     "nvidia-nvjitlink-cu12==12.4.127 ; platform_machine == 'x86_64' and sys_platform == 'linux'",
     "nvidia-nvtx-cu12==12.4.127 ; platform_machine == 'x86_64' and sys_platform == 'linux'",
     "openai==1.60.2",
-    "pillow==11.1.0",
+    "pillow==12.1.1",
     "propcache==0.2.1",
     "pydantic==2.10.6",
     "pydantic-core==2.27.2",
