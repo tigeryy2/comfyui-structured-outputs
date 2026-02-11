@@ -12,6 +12,8 @@ anyio==4.8.0
     # via
     #   httpx
     #   openai
+async-timeout==5.0.1 ; python_full_version < '3.11'
+    # via aiohttp
 attrs==25.1.0
     # via aiohttp
 certifi==2024.12.14
@@ -31,6 +33,8 @@ distro==1.9.0
     # via openai
 docstring-parser==0.16
     # via instructor
+exceptiongroup==1.3.1 ; python_full_version < '3.11'
+    # via anyio
 filelock==3.17.0
     # via
     #   torch
@@ -78,7 +82,9 @@ multidict==6.1.0
 networkx==3.4.2
     # via torch
 numpy==2.2.2
-    # via torchvision
+    # via
+    #   -r requirements.in
+    #   torchvision
 nvidia-cublas-cu12==12.4.5.8 ; platform_machine == 'x86_64' and sys_platform == 'linux'
     # via
     #   nvidia-cudnn-cu12
@@ -114,7 +120,7 @@ nvidia-nvtx-cu12==12.4.127 ; platform_machine == 'x86_64' and sys_platform == 'l
     # via torch
 openai==1.60.2
     # via instructor
-pillow==11.1.0
+pillow==12.1.1
     # via
     #   -r requirements.in
     #   torchvision
@@ -140,7 +146,7 @@ rich==13.9.4
     # via
     #   instructor
     #   typer
-setuptools==75.8.0
+setuptools==75.8.0 ; python_full_version >= '3.12'
     # via torch
 shellingham==1.5.4
     # via typer
@@ -167,9 +173,12 @@ typer==0.15.1
 typing-extensions==4.12.2
     # via
     #   anyio
+    #   exceptiongroup
+    #   multidict
     #   openai
     #   pydantic
     #   pydantic-core
+    #   rich
     #   torch
     #   typer
 urllib3==2.3.0
